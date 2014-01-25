@@ -6,6 +6,7 @@
 <meta charset="UTF-8" />
 <title>HTML5 File Drag &amp; Drop API</title>
 <%-- <script src="<c:url value="/resources/js/filedrag.js" />"></script> --%>
+<script src="<c:url value="/resources/js/jquery.js" />"></script>
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/styles.css" />" />
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/main.css" />" />
 <%-- <link href="<c:url value="/resources/css/home.css" />" rel="stylesheet"> --%>
@@ -50,15 +51,108 @@
 </div>
 
 
-<h2>Disclaimer</h2>
-<p>The code was developed by <a href="http://twitter.com/craigbuckler">Craig Buckler</a> of <a href="http://optimalworks.net/">OptimalWorks.net</a> for <a href="http://sitepoint.com/">SitePoint.com</a>.</p>
-
-<p>This code can be <a href="http://blogs.sitepointstatic.com/examples/tech/filedrag/1/filedrag1.zip">downloaded and used</a> without any restrictions but please don't expect support! A link back to SitePoint.com is appreciated.</p>
-
-<script src="<c:url value="/resources/js/filedrag.js" />"></script>
 <div id="stadiv">
-	<p id="statusTitle"> <span class="free-space">64.54 GB free out of 2.00 GB</span></p>
+	<p id="statusTitle"> <span id="statustext" class="free-space">64.54 GB free out of 2.00 GB</span></p>
 	<meter id="statusBar" value="180" min="0" low="100" optimum="80" high="170" max="200"></meter>
 </div>
+
+
+<script language="javascript"> 
+
+	(function() {
+
+		// getElementById
+		function $id(id) {
+			return document.getElementById(id);
+		}
+
+
+		// output information
+		function Output(msg) {
+			var m = $id("messages");
+			m.innerHTML = msg + m.innerHTML;
+			console.log(msg);
+		}
+
+
+		// file drag hover
+		function FileDragHover(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			e.target.className = (e.type == "dragover" ? "hover" : "");
+		}
+
+
+		// file selection
+		function FileSelectHandler(e) {
+
+			// cancel event and hover styling
+			FileDragHover(e);
+
+			// fetch FileList object
+			var files = e.target.files || e.dataTransfer.files;
+
+			// process all File objects
+			for (var i = 0, f; f = files[i]; i++) {
+				ParseFile(f);
+			}
+			
+			//$('.free-space').text("your new string");
+			var statusStr = "Coool";
+			$("#statustext").text(statusStr);
+		}
+
+
+		// output file information
+		function ParseFile(file) {
+
+			Output(
+				"<p>File information: <strong>" + file.name +
+				"</strong> type: <strong>" + file.type +
+				"</strong> size: <strong>" + file.size +
+				"</strong> bytes</p>"
+			);
+
+		}
+
+
+		// initialize
+		function Init() {
+
+			var fileselect = $id("fileselect"),
+				filedrag = $id("filedrag"),
+				submitbutton = $id("submitbutton");
+
+			// file select
+			fileselect.addEventListener("change", FileSelectHandler, false);
+
+			// is XHR2 available?
+			var xhr = new XMLHttpRequest();
+			if (xhr.upload) {
+
+				// file drop
+				filedrag.addEventListener("dragover", FileDragHover, false);
+				filedrag.addEventListener("dragleave", FileDragHover, false);
+				filedrag.addEventListener("drop", FileSelectHandler, false);
+				filedrag.style.display = "block";
+
+				// remove submit button
+//				submitbutton.style.display = "none";
+			}
+
+		}
+
+		// call initialization file
+		if (window.File && window.FileList && window.FileReader) {
+			Init();
+		}
+
+
+	})();
+	
+	
+	
+	</script>
+
 </body>
 </html>
