@@ -36,7 +36,7 @@ public class HomeController {
 		DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
 
         config = new DbxRequestConfig(
-            "DBXSmartDelete\1.0", Locale.getDefault().toString());
+            "SmartDelete\1.0", Locale.getDefault().toString());
         webAuth = new DbxWebAuthNoRedirect(config, appInfo);
 		
         String authorizeUrl = webAuth.start();
@@ -48,11 +48,13 @@ public class HomeController {
 	
 	@RequestMapping(value="/", method = RequestMethod.POST)
 	public String authorize(@RequestParam("authCode") String code) throws DbxException{
-		System.out.println(code);
+
 		DbxAuthFinish authFinish = webAuth.finish(code);
 		client = new DbxClient(config, authFinish.accessToken);
 		System.out.println(client.getAccountInfo().displayName);
+		
 		return "main";
+		
 	}
 	
 	
