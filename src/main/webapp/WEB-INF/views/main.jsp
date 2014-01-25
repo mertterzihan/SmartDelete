@@ -55,11 +55,7 @@
 	</form>
 	
 	<div id="stadiv">
-<<<<<<< HEAD
 	<p id="statusTitle"> <span id="statustext" class="free-space">${freespace} free out of ${capacity}MB</span></p>
-=======
-	<p id="statusTitle"> <span class="free-space">${freespace} free out of ${capacity}MB</span></p>
->>>>>>> 08c3521ff7a95939cd08d4866cba2ce68edc134e
 	<meter id="statusBar" value="${usedspace}" min="0" low="700" optimum="500" high="2000" max="${capacity}"></meter>
 	</div>
 	

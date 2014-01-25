@@ -34,7 +34,7 @@
 
 <div>
 	<label for="fileselect">Files to upload:</label>
-	<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+	<!-- <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" /> -->
 	<div id="filedrag">or drop files here</div>
 </div>
 
@@ -137,7 +137,7 @@
 				filedrag.style.display = "block";
 
 				// remove submit button
-//				submitbutton.style.display = "none";
+				submitbutton.style.display = "none";
 			}
 
 		}
