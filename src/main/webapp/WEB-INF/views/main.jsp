@@ -5,37 +5,79 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/styles.css" />" />
+<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/main.css" />" />
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 <title>Delete a File</title>
 </head>
 <body>
-	<h2>Delete File</h2>
-  	<form method="get">
+	<div id="bigIcon">
+		<div id="icon">
+			<img border="0" src="<c:url value="/resources/img/dropbox-512.png" />" width="100px">
+		</div>
+		<div id="title">
+			<h1>
+				Dropbox Smart Delete   
+			</h1>
+		</div>
+		
+	</div>
+	
+
+	<form id="DelForm" method="get">
 		<fieldset>
-  	 		<table cellspacing="0" border="1">
+  	 		<table class="table table-hover">
+  	 			<thead>
   	 			<tr>
-  	 			  <th>Selection</th>
-				  <th>URL</th>
+  	 			  <th>File Path</th>
+				  <th>Download</th>
 				  <th>Date</th>
 				  <th>Size</th>
-				  <th>Path</th>
+				  <th></th>
 				</tr>
-	   			<c:forEach var="instance" items="${instances}">
+				</thead>
+				<tbody>
+	   			<c:forEach var="instance" items="${instances}">			
 	   				<tr>
-			          <td><input type="radio" name="file" value="${instance.path}"></td>
-			          <td>${instance.url}</td>	
+	   				  <td>${instance.path}</td>
+			          <%-- <td><input type="radio" name="file" value="${instance.path}"></td> --%>
+			          <td><button type="button" class="btn btn-link" onClick="window.open('${instance.url}');">Link</button></td>
 			          <td>${instance.date}</td>
 			          <td>${instance.size}</td>
-			          <td>${instance.path}</td>
+			          <td><button type="submit" name="file" class="btn btn-danger" value="${instance.path}" >DELETE</button></td>
 			        </tr>
+			   
 			     </c:forEach>
-			          
-			     <tr>
-	        		<td>
-	            		<input type="submit" value="Submit"/>
-	        		</td>
-	    		</tr>
+			   	 </tbody>       
 			</table> 
 		</fieldset>
 	</form>
+	
+	<meter id="statusBar" value="50" min="0" low="10" optimum="50" high="90" max="100"></meter>
+	
+	<form id="upload" action="index.html" method="POST" enctype="multipart/form-data">
+
+	<fieldset>
+		<legend>HTML File Upload</legend>
+		
+		<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
+		
+		<div>
+			<label for="fileselect">Files to upload:</label>
+			<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+			<div id="filedrag">or drop files here</div>
+		</div>
+		
+		<div id="submitbutton">
+			<button type="submit">Upload Files</button>
+		</div>	
+	</fieldset>
+	
+	</form>
+	
+	<div id="messages">
+		<p>Status Messages</p>
+	</div>
+	<script src="<c:url value="/resources/js/filedrag.js" />"></script>
 </body>
 </html>
