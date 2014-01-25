@@ -30,13 +30,25 @@
 }
 #upload
 {
+/* 	position: relative;
+	top: 600px;
+	display:block; */
+}
+#uploadForm
+{
+	width:90%;	
+	margin-left: auto;
+	margin-right: auto;
 	position: relative;
-	top: 100px;
-	display:block;
+	top: 250px;
+	display:block;	
 }
 #messages{
+	width:90%;	
+	margin-left: auto;
+	margin-right: auto;
 	position: relative;
-	top: 100px;
+	top: 250px;
 	display:block;
 }
 #statusBar
