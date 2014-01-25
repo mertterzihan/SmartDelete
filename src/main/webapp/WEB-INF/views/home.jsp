@@ -11,7 +11,7 @@
 
 <P>  The Authorization URL is  ${authorizeUrl}. </P>
 
-<form id="authForm" action="" method="post">
+<form id="authForm" action="main" method="post">
 		<fieldset>
 			<table cellspacing="0">
 				<tr>
