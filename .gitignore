@@ -5,3 +5,4 @@ target
 .springBeans
 smartdelete.*
 diagrams
+.DS_Store
