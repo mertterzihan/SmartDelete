@@ -1,39 +1,59 @@
 package org.hackatbrown.smartdelete;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.dropbox.core.DbxAppInfo;
+import com.dropbox.core.DbxAuthFinish;
+import com.dropbox.core.DbxClient;
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.DbxWebAuthNoRedirect;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+		
+	final String APP_KEY = "m5bfnmik40esq18";
+    final String APP_SECRET = "cj4iixfkh6sgs1x";
+    DbxWebAuthNoRedirect webAuth;
+    DbxRequestConfig config;
+    DbxClient client;
+    
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
 		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
+
+        config = new DbxRequestConfig(
+            "DBXSmartDelete\1.0", Locale.getDefault().toString());
+        webAuth = new DbxWebAuthNoRedirect(config, appInfo);
 		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
+        String authorizeUrl = webAuth.start();
+        
+		model.addAttribute("authorizeUrl", authorizeUrl );
 		
 		return "home";
 	}
+	
+	@RequestMapping(value="/", method = RequestMethod.POST)
+	public String authorize(@RequestParam("authCode") String code) throws DbxException{
+		System.out.println(code);
+		DbxAuthFinish authFinish = webAuth.finish(code);
+		client = new DbxClient(config, authFinish.accessToken);
+		System.out.println(client.getAccountInfo().displayName);
+		return "main";
+	}
+	
 	
 }

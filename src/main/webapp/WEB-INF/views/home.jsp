@@ -9,6 +9,21 @@
 	Hello world!  
 </h1>
 
-<P>  The time on the server is ${serverTime}. </P>
+<P>  The Authorization URL is  ${authorizeUrl}. </P>
+
+<form id="authForm" action="" method="post">
+		<fieldset>
+			<table cellspacing="0">
+				<tr>
+					<th><label for="note">Authorization Code:</label></th>
+					<td><input id="authCode" name="authCode" /></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td><input type="submit" value="Submit" /></td>
+				</tr>
+			</table>
+		</fieldset>
+	</form>
 </body>
 </html>
