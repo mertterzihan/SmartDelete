@@ -59,10 +59,11 @@
 	<meter id="statusBar" value="${usedspace}" min="0" low="700" optimum="500" high="2000" max="${capacity}"></meter>
 	</div>
 	
+	<div id="uploadForm">
 	<form id="upload" action="index.html" method="POST" enctype="multipart/form-data">
 
 	<fieldset>
-		<legend>HTML File Upload</legend>
+		<!-- <legend>HTML File Upload</legend> -->
 		
 		<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
 		
@@ -72,13 +73,17 @@
 			<div id="filedrag">or drop files here</div>
 		</div>
 		
+		<!-- <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="m5bfnmik40esq18"></script> -->
+		<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="k0tisumnx948llr"></script>
+<a href="https://dl.dropboxusercontent.com/s/deroi5nwm6u7gdf/advice.png" class="dropbox-saver"></a>
 		<div id="submitbutton">
 			<button type="submit">Upload Files</button>
 		</div>	
 	</fieldset>
 	
 	</form>
-	
+	</div>
+		
 	<div id="messages">
 		<p>Status Messages</p>
 	</div>
@@ -130,8 +135,10 @@
 			var statusStr = Number(spaceLeft).toFixed(2) + "free out of "+ "${capacity}" + " MB";
 			$("#statustext").text(statusStr);
 			
-			var usedspace = "${usedspace}" + TotalFileSize/(1024.0*1024.0);
+			//var usedspace = "${usedspace}" + TotalFileSize/(1024.0*1024.0);
+			var usedspace = "${capacity}" - spaceLeft;
 			var meter = document.getElementById('statusBar');
+			console.log(usedspace);
 			meter.value = usedspace;
 		}
 
@@ -170,7 +177,7 @@
 				filedrag.style.display = "block";
 
 				// remove submit button
-//				submitbutton.style.display = "none";
+				submitbutton.style.display = "none";
 			}
 
 		}
