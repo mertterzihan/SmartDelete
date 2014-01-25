@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -69,9 +70,14 @@ public class HomeController {
 		DbxAuthFinish authFinish = webAuth.finish(code);
 		client = new DbxClient(config, authFinish.accessToken);
 		System.out.println(client.getAccountInfo().displayName);
-		//System.out.println(client.getAccountInfo().quota.);
+		DecimalFormat df = new DecimalFormat("#.##");
 		long capacity = client.getAccountInfo().quota.total;
-		long usedSpace = client.getAccountInfo().quota.normal;
+		long usedspace = client.getAccountInfo().quota.normal;
+		long freespace = capacity - usedspace;
+		
+		model.addAttribute("capacity", capacity/(1024.0*1024));
+		model.addAttribute("usedspace", df.format(usedspace/(1024.0*1024)));
+		model.addAttribute("freespace", df.format(freespace/(1024.0*1024)));
 		
         System.out.println("Files in the root path:");
         //File target = new File("out.json");
@@ -95,10 +101,10 @@ public class HomeController {
 		
 	}
 	
-//	@RequestMapping(value = "/fileupload", method = RequestMethod.GET)
-//	public String fileupload(Locale locale, Model model) {
-//		return "fileupload";
-//	}
+	@RequestMapping(value = "/fileupload", method = RequestMethod.GET)
+	public String fileupload(Locale locale, Model model) {
+		return "fileupload";
+	}
 
 	public static class CustomComparator implements Comparator<DBXFile> {
 
@@ -154,6 +160,16 @@ public class HomeController {
     	
     	if(listToShow != null)
 			model.addAttribute("instances", listToShow);
+    	
+    	DecimalFormat df = new DecimalFormat("#.##");
+    	
+    	long capacity = client.getAccountInfo().quota.total;
+		long usedspace = client.getAccountInfo().quota.normal;
+		long freespace = capacity - usedspace;
+		
+		model.addAttribute("capacity", capacity/(1024.0*1024));
+		model.addAttribute("usedspace", df.format(usedspace/(1024.0*1024)));
+		model.addAttribute("freespace", df.format(freespace/(1024.0*1024)));
     	
     	return "main";
     }

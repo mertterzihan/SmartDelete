@@ -53,9 +53,12 @@
 		</fieldset>
 	</form>
 	
-	<meter id="statusBar" value="50" min="0" low="10" optimum="50" high="90" max="100"></meter>
+	<div id="stadiv">
+	<p id="statusTitle"> <span class="free-space">${freespace} free out of ${capacity}MB</span></p>
+	<meter id="statusBar" value="${usedspace}" min="0" low="700" optimum="500" high="1700" max="${capacity}"></meter>
+	</div>
 	
-	<form id="upload" action="index.html" method="POST" enctype="multipart/form-data">
+	<%-- <form id="upload" action="index.html" method="POST" enctype="multipart/form-data">
 
 	<fieldset>
 		<legend>HTML File Upload</legend>
@@ -78,6 +81,6 @@
 	<div id="messages">
 		<p>Status Messages</p>
 	</div>
-	<script src="<c:url value="/resources/js/filedrag.js" />"></script>
+	<script src="<c:url value="/resources/js/filedrag.js" />"></script> --%>
 </body>
 </html>

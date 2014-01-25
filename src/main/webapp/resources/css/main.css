@@ -44,4 +44,35 @@
 	position: relative;
 	top: 80px;
 	display:block;	
+	width: 550px;
+  	height: 25px;
+  	background: none; /* Required to get rid of the default background property */
+  background-color: whiteSmoke;
+  box-shadow: 0 5px 5px -5px #333 inset;	
 }
+meter::-webkit-meter-bar 
+{
+  background: none; /* Required to get rid of the default background property */
+  background-color: whiteSmoke;
+  box-shadow: 0 5px 5px -5px #333 inset;
+}
+.free-space {
+  float: right;
+  position: relative;
+  top: 30px;
+  display:block;
+}
+#statusTitle {
+  width: 550px;
+  line-height: 2.5;
+  position: relative;
+  top: 80px;
+  display:block;
+}
+#stadiv
+{
+	float: right;
+	margin: 5em auto;
+	position: relative;
+	left: -200px;
+} 
