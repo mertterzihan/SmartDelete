@@ -1,5 +1,9 @@
 package org.hackatbrown.smartdelete;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,6 +27,7 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxUrlWithExpiration;
 import com.dropbox.core.DbxWebAuthNoRedirect;
+import com.dropbox.core.DbxWriteMode;
 
 /**
  * Handles requests for the application home page.
@@ -64,6 +69,9 @@ public class HomeController {
 		DbxAuthFinish authFinish = webAuth.finish(code);
 		client = new DbxClient(config, authFinish.accessToken);
 		System.out.println(client.getAccountInfo().displayName);
+		//System.out.println(client.getAccountInfo().quota.);
+		long capacity = client.getAccountInfo().quota.total;
+		long usedSpace = client.getAccountInfo().quota.normal;
 		
         System.out.println("Files in the root path:");
         //File target = new File("out.json");
@@ -87,10 +95,10 @@ public class HomeController {
 		
 	}
 	
-	@RequestMapping(value = "/fileupload", method = RequestMethod.GET)
-	public String fileupload(Locale locale, Model model) {
-		return "fileupload";
-	}
+//	@RequestMapping(value = "/fileupload", method = RequestMethod.GET)
+//	public String fileupload(Locale locale, Model model) {
+//		return "fileupload";
+//	}
 
 	public static class CustomComparator implements Comparator<DBXFile> {
 
@@ -149,5 +157,19 @@ public class HomeController {
     	
     	return "main";
     }
-	
+    
+    @RequestMapping(value = "/fileupload", method = RequestMethod.POST)
+    public String upload(@RequestParam("file") String name, Model model) throws DbxException, IOException{
+    	File inputFile = new File(name);
+    	FileInputStream inputStream = new FileInputStream(inputFile);
+    	try {
+    		DbxEntry.File uploadedFile = client.uploadFile("/" + name,
+  	        DbxWriteMode.add(), inputFile.length(), inputStream);
+    		System.out.println("Uploaded: " + uploadedFile.toString());
+    	} finally {
+    		inputStream.close();
+    	}
+    	
+    	return "fileupload";
+    }	
 }
