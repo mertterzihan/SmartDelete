@@ -38,7 +38,8 @@ public class HomeController {
         config = new DbxRequestConfig(
             "SmartDelete\1.0", Locale.getDefault().toString());
         webAuth = new DbxWebAuthNoRedirect(config, appInfo);
-		
+		//webAuth = new DbxWebAuthRedirect(conifg, appInfo)l
+        
         String authorizeUrl = webAuth.start();
         
 		model.addAttribute("authorizeUrl", authorizeUrl );
@@ -57,5 +58,8 @@ public class HomeController {
 		
 	}
 	
-	
+	@RequestMapping(value = "/fileupload", method = RequestMethod.GET)
+	public String fileupload(Locale locale, Model model) {
+		return "fileupload";
+	}
 }
